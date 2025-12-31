@@ -15,11 +15,11 @@ const FichaJuramentado = () => {
   
   const page1Extras = (
     <>
-      <AbsoluteInput top={620} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={897} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1031} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1092} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1202} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="juramentado-move-1" top={620} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="juramentado-move-2" top={897} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="juramentado-move-3" top={1031} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="juramentado-move-4" top={1092} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="juramentado-move-5" top={1202} left={76} width={17} height={17} type="checkbox" className="check-move" />
     </>
   );
 const page2Extras = (

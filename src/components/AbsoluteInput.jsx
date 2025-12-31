@@ -2,6 +2,7 @@
 import React from 'react';
 
 const AbsoluteInput = ({ 
+  id,
   top, 
   left, 
   width, 
@@ -25,6 +26,7 @@ const AbsoluteInput = ({
 
   return (
     <input
+      id={id}
       type={type}
       style={style}
       className={`${baseClass} ${className}`}

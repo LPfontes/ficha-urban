@@ -21,13 +21,13 @@ const FichaMago = () => {
   );
 const page2Extras = (
     <>
-      <AbsoluteInput top={148} left={363} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={257} left={363} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={366} left={363} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={524} left={363} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={681} left={363} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={766} left={363} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={852} left={363} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="mago-move-1" top={148} left={363} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="mago-move-2" top={257} left={363} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="mago-move-3" top={366} left={363} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="mago-move-4" top={524} left={363} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="mago-move-5" top={681} left={363} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="mago-move-6" top={766} left={363} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="mago-move-7" top={852} left={363} width={17} height={17} type="checkbox" className="check-move" />
 
       {renderCheckboxes(76, 883, 1, 0, 20, 14, 14, "check-equipamento-inicial")}
       {renderCheckboxes(76, 945, 1, 0, 20, 14, 14, "check-equipamento-inicial")}

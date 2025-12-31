@@ -16,10 +16,10 @@ const FichaDiabrete = () => {
   const page1Extras = (
     <>
       {/* Movimentos Específicos do Desperto */}
-      <AbsoluteInput top={911} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1068} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1178} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1263} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="diabrete-move-1" top={911} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="diabrete-move-2" top={1068} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="diabrete-move-3" top={1178} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="diabrete-move-4" top={1263} left={76} width={17} height={17} type="checkbox" className="check-move" />
 
     </>
   );

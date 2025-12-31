@@ -15,11 +15,11 @@ const FichaEspectro = () => {
   const page1Extras = (
     <>
      {/* Movimentos Específicos do Desperto */}
-      <AbsoluteInput top={865} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={975} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1085} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1145} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1279} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="espectro-move-1" top={865} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="espectro-move-2" top={975} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="espectro-move-3" top={1085} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="espectro-move-4" top={1145} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="espectro-move-5" top={1279} left={76} width={17} height={17} type="checkbox" className="check-move" />
 
     </>
   );

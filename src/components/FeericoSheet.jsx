@@ -14,11 +14,11 @@ const FichaFeerico = () => {
   
   const page1Extras = (
     <>
-      <AbsoluteInput top={838} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={948} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1034} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1144} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1229} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="feerico-move-1" top={838} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="feerico-move-2" top={948} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="feerico-move-3" top={1034} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="feerico-move-4" top={1144} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="feerico-move-5" top={1229} left={76} width={17} height={17} type="checkbox" className="check-move" />
 
     </>
   );

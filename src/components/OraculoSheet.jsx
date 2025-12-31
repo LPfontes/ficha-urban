@@ -15,11 +15,11 @@ const FichaOraculo = () => {
   
   const page1Extras = (
     <>
-      <AbsoluteInput top={591} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={820} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1002} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1135} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1292} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="oraculo-move-1" top={591} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="oraculo-move-2" top={820} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="oraculo-move-3" top={1002} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="oraculo-move-4" top={1135} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="oraculo-move-5" top={1292} left={76} width={17} height={17} type="checkbox" className="check-move" />
     </>
   );
 const page2Extras = (

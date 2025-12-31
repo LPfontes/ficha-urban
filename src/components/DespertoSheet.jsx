@@ -18,12 +18,12 @@ const FichaDesperto = () => {
   const page1Extras = (
     <>
       {/* Movimentos Específicos do Desperto */}
-      <AbsoluteInput top={620} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={754} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={815} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={973} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1130} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1215} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="desperto-move-1" top={620} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="desperto-move-2" top={754} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="desperto-move-3" top={815} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="desperto-move-4" top={973} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="desperto-move-5" top={1130} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="desperto-move-6" top={1215} left={76} width={17} height={17} type="checkbox" className="check-move" />
     </>
   );
 

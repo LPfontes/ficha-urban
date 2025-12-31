@@ -41,11 +41,11 @@ const FichaSanguessuga = () => {
   const page1Extras = (
     <>
       {/* Movimentos (Ajuste as posições) */}
-      <AbsoluteInput top={839} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={996} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1082} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1191} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1253} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="sanguessuga-move-1" top={839} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="sanguessuga-move-2" top={996} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="sanguessuga-move-3" top={1082} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="sanguessuga-move-4" top={1191} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="sanguessuga-move-5" top={1253} left={76} width={17} height={17} type="checkbox" className="check-move" />
     </>
   );
 const page2Extras = (

@@ -56,12 +56,12 @@ const FichaCacador = () => {
   const hunterPage1Extras = (
     <>
       {/* Movimentos específicos do Caçador */}
-      <AbsoluteInput top={616} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={702} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={884} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1016} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1102} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1188} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="cacador-move-1" top={616} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="cacador-move-2" top={702} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="cacador-move-3" top={884} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="cacador-move-4" top={1016} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="cacador-move-5" top={1102} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="cacador-move-6" top={1188} left={76} width={17} height={17} type="checkbox" className="check-move" />
 
     </>
   );

@@ -47,12 +47,12 @@ const FichaVeterano = () => {
   const page1Extras = (
     <>
       {/* Movimentos (Ajuste as posições) */}
-      <AbsoluteInput top={772} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={800} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={906} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={991} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1077} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1282} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="veterano-move-1" top={772} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="veterano-move-2" top={800} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="veterano-move-3" top={906} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="veterano-move-4" top={991} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="veterano-move-5" top={1077} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="veterano-move-6" top={1282} left={76} width={17} height={17} type="checkbox" className="check-move" />
     </>
   );
 const page2Extras = (

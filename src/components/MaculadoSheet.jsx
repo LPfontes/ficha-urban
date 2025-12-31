@@ -16,13 +16,13 @@ const FichaMaculado = () => {
   const page1Extras = (
     <>
       {/* Movimentos (Ajuste as posições conforme o background do Lobo) */}
-      <AbsoluteInput top={787} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={896} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={982} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      <AbsoluteInput top={1235} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="maculado-move-1" top={787} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="maculado-move-2" top={896} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="maculado-move-3" top={982} left={76} width={17} height={17} type="checkbox" className="check-move" />
+      <AbsoluteInput id="maculado-move-4" top={1235} left={76} width={17} height={17} type="checkbox" className="check-move" />
       
       {/* Armadura específica do Lobo */}
-      <AbsoluteInput top={740} left={715} width={40} height={30} type="number" className="field-armadura" />
+      <AbsoluteInput id="maculado-armor" top={740} left={715} width={40} height={30} type="number" className="field-armadura" />
     </>
   );
 const page2Extras = (
