@@ -4,8 +4,8 @@ import AbsoluteInput from './AbsoluteInput';
 import BaseSheet, { renderCheckboxes } from './BaseSheet';
 
 // Imagens específicas do Veterano
-import bgPage1 from '../assets/imagens/Oraculo.webp';
-import bgPage2 from '../assets/imagens/Oraculo2.webp';
+import bgPage1 from '../assets/imagens/oraculo.webp';
+import bgPage2 from '../assets/imagensoraculo2.webp';
 
 const SUGGESTIONS_COMPORTAMENTO = ["Distante", "Manipulador", "Paranoico", "Reconfortante"];
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas casuais", "roupas escuras", "roupas sujas", "roupas táticas"];
