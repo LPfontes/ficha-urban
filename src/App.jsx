@@ -57,6 +57,19 @@ function App() {
       {currentSheet === 'sanguessuga' && <FichaSanguessuga />}
       {currentSheet === 'veterano' && <FichaVeterano />}
       </div>
+      <footer style={{ textAlign: 'center', padding: '20px 10px', marginTop: '40px', color: '#b4b3b3ff', fontFamily: 'sans-serif', fontSize: '1rem' }}>
+      <p style={{ margin: '5px 0' }}>
+        Urban Shadows foi criado por Andrew Medeiros e Mark Diaz Truman. Copyright © 2015 <strong>Magpie Games</strong>. Todos os direitos reservados.
+      </p>
+      
+      <p style={{ margin: '5px 0' }}>
+        Traduzido para o português pela <a href="https://triaeditora.com.br/" target="_blank" rel="noopener noreferrer" style={{ color: '#782b75', textDecoration: 'none', fontWeight: 'bold' }}>Tria Editora</a> via financiamento coletivo no <a href="https://www.catarse.me/shadows?ref=ctrse_banner-home" target="_blank" rel="noopener noreferrer" style={{ color: '#782b75', textDecoration: 'none', fontWeight: 'bold' }}>Catarse</a>.
+      </p>
+
+      <p style={{ marginTop: '15px' }}>
+        Desenvolvido por <a href="https://github.com/LPfontes/ficha-urban" target="_blank" rel="noopener noreferrer" style={{ color: '#782b75', textDecoration: 'none', fontWeight: 'bold' }}>Luiz Paulo</a>
+      </p>
+    </footer>
     </div>
   );
 }

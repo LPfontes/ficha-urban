@@ -442,8 +442,6 @@ const BaseSheet = ({
         {renderCheckboxes(leftCorrupcao2, topCorrupcao2, 2, 0, checkcorrupcaoGap2, 14, 14, "check-mov-corrupcao")}
         {activeSuggestion?.page === 2 && renderDropdown()}
       </div>
-
-      
     </div>
   );
 };
