@@ -64,7 +64,115 @@ const BaseSheet = ({
   suggestionsVisual = DEFAULT_SUGGESTIONS_VISUAL,
   suggestionsEquipment = DEFAULT_SUGGESTIONS_EQUIPMENT,
 }) => {
-  
+  const handleExportJSON = () => {
+    const data = {};
+    
+    // Função auxiliar para processar listas de inputs
+    const processInputs = (containerRef) => {
+      if (!containerRef.current) return;
+      
+      // Seleciona todos os elementos de input, select e textarea
+      const inputs = containerRef.current.querySelectorAll('input, select, textarea');
+      
+      inputs.forEach((input) => {
+        // Ignora inputs sem ID ou botões
+        if (!input.id || input.type === 'button' || input.type === 'submit') return;
+
+        // Guarda o valor dependendo do tipo
+        if (input.type === 'checkbox') {
+          data[input.id] = input.checked;
+        } else if (input.type === 'number') {
+          // Tenta guardar como número, se falhar guarda como string
+          data[input.id] = input.value === "" ? "" : Number(input.value);
+        } else {
+          data[input.id] = input.value;
+        }
+      });
+    };
+    
+    // Processa a Página 1 e a Página 2
+    processInputs(sheetRef1);
+    processInputs(sheetRef2);
+
+    // Adiciona metadados úteis (opcional)
+    data.exportedAt = new Date().toISOString();
+    
+    // Cria o ficheiro para download
+    const jsonString = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    // Gera o nome do ficheiro baseado no nome da personagem (se existir)
+    const charName = data['input-nome'] ? data['input-nome'].replace(/\s+/g, '_') : 'sem-nome';
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `ficha_urban_${charName}.json`;
+    document.body.appendChild(link);
+    link.click();
+    
+    // Limpeza
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+  const fileInputRef = useRef(null);
+  const handleImportJSON = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+
+        // 1. Lidar com Equipamentos Dinâmicos
+        // Verifica se o JSON tem mais equipamentos do que os que estão renderizados
+        const equipIndices = Object.keys(data)
+          .filter(key => key.startsWith('equipamento-extra-'))
+          .map(key => parseInt(key.split('-').pop(), 10));
+
+        if (equipIndices.length > 0) {
+          const maxIndex = Math.max(...equipIndices);
+          // Atualiza o estado para criar o número certo de inputs
+          // Criamos um array novo com o tamanho necessário
+          setEquipments(Array(maxIndex + 1).fill(''));
+        }
+
+        // 2. Preencher os Inputs (com pequeno atraso para o React renderizar)
+        setTimeout(() => {
+          Object.keys(data).forEach((key) => {
+            const element = document.getElementById(key);
+            
+            if (element) {
+              const value = data[key];
+
+              if (element.type === 'checkbox') {
+                element.checked = value;
+              } else {
+                element.value = value;
+                // Ajusta o tamanho da fonte se for texto
+                if (element.type === 'text') {
+                   adjustFontSize(element);
+                }
+              }
+            }
+          });
+          
+          alert("Ficha carregada com sucesso!");
+        }, 100); // 100ms é suficiente para o React renderizar os novos equipamentos
+
+      } catch (error) {
+        console.error("Erro ao ler o ficheiro JSON:", error);
+        alert("Erro ao ler o ficheiro. Verifique se é um JSON válido.");
+      }
+    };
+
+    reader.readAsText(file);
+    // Limpa o input para permitir carregar o mesmo ficheiro duas vezes seguidas se necessário
+    event.target.value = ''; 
+  };
+
   // Estado para equipamentos dinâmicos (Compartilhado por todos)
   const [equipments, setEquipments] = useState(['', '', '', '']); 
   const [activeSuggestion, setActiveSuggestion] = useState(null);
@@ -197,7 +305,30 @@ const BaseSheet = ({
 
   return (
     <div className="sheet-container active">
-      <button onClick={handleDownloadImage}>Baixar Ficha (PDF)</button>
+      {/* Input Oculto para carregar ficheiro */}
+      <input 
+        type="file" 
+        accept=".json" 
+        ref={fileInputRef} 
+        style={{ display: 'none' }} 
+        onChange={handleImportJSON} 
+      />
+
+      <div className="sheet-actions" style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+        <button onClick={handleDownloadImage}>Baixar Ficha (PDF)</button>
+        
+        <button onClick={handleExportJSON} style={{ backgroundColor: '#2b7875' }}>
+          Salvar Ficha
+        </button>
+
+        {/* Botão que ativa o input oculto */}
+        <button 
+          onClick={() => fileInputRef.current.click()} 
+          style={{ backgroundColor: '#d97706' }}
+        >
+          Carregar Ficha
+        </button>
+      </div>
       
 
 {/* --- PÁGINA 1 --- */}
