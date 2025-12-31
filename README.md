@@ -1,6 +1,3 @@
-Este documento cobre as funcionalidades, tecnologias e instruções de instalação, adaptado para o contexto de fichas de RPG do sistema Urban Shadows.
-
----
 
 # Fichas de Personagem - Urban Shadows
 
