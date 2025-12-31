@@ -76,3 +76,27 @@
 }
 /* Estilos de inputs redondos/específicos podem ser mantidos aqui ou passados inline */
 .check-status { border-radius: 50%; width: 16px; height: 16px; border: solid 2px#424242; }
+
+.sheet-container {
+  /* ... mantenha o existente ... */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  
+  /* ADICIONE ISTO: */
+  overflow-x: hidden; /* Evita scroll lateral se o cálculo falhar por poucos pixels */
+}
+
+/* Opcional: Melhorar a visualização dos controles no mobile */
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .controls select {
+    width: 100%;
+  }
+}

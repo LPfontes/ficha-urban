@@ -45,7 +45,7 @@ const SUGGESTIONS_EQUIPMENT = [
     "Espada (3-ferimento, curto, sangrenta)",
     "Um apartamento de merda",
     "Um síbolo da sua sociedade",
-    "Uma camionete",
+    "Uma caminhonete",
     "Um muscle car",
     "Um celular"
 

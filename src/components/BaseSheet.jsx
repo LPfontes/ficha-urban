@@ -23,6 +23,8 @@ export const renderCheckboxes = (startX, startY, count, gapX, gapY, width, heigh
 const DEFAULT_SUGGESTIONS_COMPORTAMENTO = ["calculista", "distante", "amigável", "volátil"];
 const DEFAULT_SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas casuais", "roupas escuras", "roupas sujas", "roupas táticas"];
 const DEFAULT_SUGGESTIONS_EQUIPMENT = ["Pistola (2-ferimento, perto, barulhento)", "Revólver (2-ferimento, perto, recarga, barulhento)", "Espingarda (3-ferimento, perto, destrutivo, barulhento)", "Faca (1-ferimento, toque)", "Soco Inglês (1-ferimento, toque)", "Espada (2-ferimento, toque, destrutivo)", "Smartphone", "Carro", "Moto", "Kit Médico"];
+const ORIGINAL_SHEET_WIDTH = 1300;
+const SHEET_HEIGHT = 1200;
 
 const BaseSheet = ({ 
   bgPage1, 
@@ -30,7 +32,7 @@ const BaseSheet = ({
   page1Extras, // Elementos específicos da Página 1 (ex: Checkboxes de movimentos)
   page2Extras,  // Elementos específicos da Página 2 (ex: Sociedade, Presas)
   equipmentsTop = 780,
-  equipmentsLeft = 365,
+  equipmentsLeft = 370,
   equipmentWidth = 545,
   equipmentButtonWidth = 200,
   buttonEquipmentFontSize = 16,
@@ -63,6 +65,25 @@ const BaseSheet = ({
   suggestionsVisual = DEFAULT_SUGGESTIONS_VISUAL,
   suggestionsEquipment = DEFAULT_SUGGESTIONS_EQUIPMENT,
 }) => {
+  const [scale, setScale] = useState(1);
+
+  // NOVO: Efeito para calcular a escala ao redimensionar a janela
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      // Se a tela for menor que a ficha, calcula a proporção. Senão, mantém 1.
+      // Subtraímos 20px para dar uma margem de segurança nas bordas
+      const newScale = screenWidth < ORIGINAL_SHEET_WIDTH 
+        ? (screenWidth - 20) / ORIGINAL_SHEET_WIDTH 
+        : 1;
+      setScale(newScale);
+    };
+
+    handleResize(); // Executa na montagem
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Estado para equipamentos dinâmicos (Compartilhado por todos)
   const [equipments, setEquipments] = useState(['', '', '', '']); 
   const [activeSuggestion, setActiveSuggestion] = useState(null);
@@ -96,17 +117,29 @@ const BaseSheet = ({
     }
 
     try {
-      const dataUrl1 = await toPng(sheetRef1.current, { cacheBust: true, backgroundColor: '#ffffff' });
-      const dataUrl2 = await toPng(sheetRef2.current, { cacheBust: true, backgroundColor: '#ffffff' });
+      // Configuração para forçar a escala 1 durante a "foto", garantindo qualidade do PDF
+      const options = { 
+        cacheBust: true, 
+        backgroundColor: '#ffffff',
+        pixelRatio: 1, // Aumenta a resolução (3x) para textos nítidos e alta qualidade
+        style: { 
+          boxShadow: 'none', // Remove a sombra para um visual de documento limpo
+          margin: '0'        // Garante que não haja margens extras na captura
+        }
+      };
 
+      const dataUrl1 = await toPng(sheetRef1.current, options);
+      const dataUrl2 = await toPng(sheetRef2.current, options);
+
+      // ... (Resto da lógica do PDF igual)
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'px',
-        format: 'a4',
-        compress:false
+        format: 'a3',
+        compress: false
       });
 
-      const width = pdf.internal.pageSize.getWidth() ;
+      const width = pdf.internal.pageSize.getWidth();
       const height = pdf.internal.pageSize.getHeight();
 
       pdf.addImage(dataUrl1, 'PNG', 0, 0, width, height);
@@ -185,7 +218,15 @@ const BaseSheet = ({
     <div className="sheet-container active">
       <button onClick={handleDownloadImage}>Baixar Ficha (PDF)</button>
       
-      {/* --- PÁGINA 1 --- */}
+
+      <div style={{ 
+        width: ORIGINAL_SHEET_WIDTH, // Mantém a largura interna fixa
+        height: SHEET_HEIGHT, // Altura fixa da imagem
+        transform: `scale(${scale})`, 
+        transformOrigin: 'top left',
+        marginBottom: `-${SHEET_HEIGHT * (1 - scale)}px` // Truque para remover espaço branco extra no fundo
+      }}>
+{/* --- PÁGINA 1 --- */}
       <div className="sheet-page" ref={sheetRef1}>
         <img src={bgPage1} alt="Ficha Frente" />
         
@@ -242,12 +283,6 @@ const BaseSheet = ({
         {renderCheckboxes(653, 1287, 2, 0, 38, 23, 23, "check-ferimento")}
         {renderCheckboxes(684, 1250, 3, 0, 37, 23, 23, "check-ferimento")}
         
-        {/* Nota: A armadura pode mudar de posição dependendo da ficha, 
-            mas deixaremos aqui o padrão. Se precisar sobrescrever, 
-            passe um style customizado ou oculte via CSS. 
-            No Hunter ela fica em top=740, no Base estava em 1164.
-            Vou deixar a lógica padrão aqui, mas o HunterSheet pode passar um input proprio no page1Extras se quiser.
-        */}
         <AbsoluteInput top={1164} left={1153} width={40} height={40} type="number" className="field-armadura-padrao" />
 
         {/* Cicatrizes */}
@@ -261,7 +296,7 @@ const BaseSheet = ({
       </div>
 
       {/* --- PÁGINA 2 --- */}
-      <div className="sheet-page" ref={sheetRef2}>
+      <div className="sheet-page" ref={sheetRef2} style={{paddingBottom: '20px'}}>
         <img src={bgPage2} alt="Ficha Verso" />
         
         {/* --- INJEÇÃO DE CONTEÚDO ESPECÍFICO DA PÁGINA 2 (Antes dos equipamentos) --- */}
@@ -282,6 +317,7 @@ const BaseSheet = ({
         </div>
 
         <button 
+          className='button-add-equip'
           onClick={addEquipment}
           style={{color: 'white', position: 'absolute', top: equipmentButtonTop, left: equipmentButtonleft, cursor: 'pointer', width: equipmentButtonWidth, fontSize: buttonEquipmentFontSize}}
         >
@@ -298,6 +334,9 @@ const BaseSheet = ({
         {renderCheckboxes(leftCorrupcao2, topCorrupcao2, 2, 0, checkcorrupcaoGap2, 14, 14, "check-mov-corrupcao")}
         {activeSuggestion?.page === 2 && renderDropdown()}
       </div>
+
+      </div>
+      
     </div>
   );
 };
