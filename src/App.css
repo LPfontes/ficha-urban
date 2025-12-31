@@ -39,15 +39,20 @@
   background-color: white;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
   margin-bottom: 20px;
+  page-break-after: always; 
+  break-after: always; 
 }
-
+.sheet-page:last-child {
+  page-break-after: avoid;
+  break-after: avoid;
+}
 /* Campos Genéricos */
 .field {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.1); /* Transparente para ver */
   border: none;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 20px;
+  font-size: 25px;
   color: #000;
   padding: 2px 5px;
 }
@@ -62,9 +67,12 @@
   background-color: #782b75;
 }
 
+.trauma-check:checked {
+  border: solid 1.5px#ffffff;
+}
 .number-input {
   text-align: center;
   font-size: 40px;
 }
 /* Estilos de inputs redondos/específicos podem ser mantidos aqui ou passados inline */
-.check-status { border-radius: 50%; width: 16px; height: 16px; }
+.check-status { border-radius: 50%; width: 16px; height: 16px; border: solid 2px#424242; }

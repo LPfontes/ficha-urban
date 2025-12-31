@@ -10,13 +10,15 @@ const AbsoluteInput = ({
   className = "", 
   placeholder = "",
   value,
-  onChange 
+  checked,
+  ...props
 }) => {
   const style = {
     top: `${top}px`,
     left: `${left}px`,
     width: width ? `${width}px` : undefined,
     height: height ? `${height}px` : undefined,
+    
   };
 
   const baseClass = type === 'checkbox' ? 'check-box' : 'field';
@@ -27,8 +29,9 @@ const AbsoluteInput = ({
       style={style}
       className={`${baseClass} ${className}`}
       placeholder={placeholder}
-      // Se você quiser gerenciar o estado (controlado), passe value/onChange
-      // Se for apenas visual para impressão, pode deixar sem (não controlado)
+      defaultValue={value}
+      defaultChecked={checked}
+      {...props}
     />
   );
 };
