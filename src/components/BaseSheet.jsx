@@ -102,10 +102,11 @@ const BaseSheet = ({
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'px',
-        format: [sheetRef1.current.offsetWidth, sheetRef1.current.offsetHeight]
+        format: 'a4',
+        compress:false
       });
 
-      const width = pdf.internal.pageSize.getWidth();
+      const width = pdf.internal.pageSize.getWidth() ;
       const height = pdf.internal.pageSize.getHeight();
 
       pdf.addImage(dataUrl1, 'PNG', 0, 0, width, height);
