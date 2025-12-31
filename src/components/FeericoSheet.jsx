@@ -10,7 +10,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["agressivo", "charmoso", "calmo", "paranoico"
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas de marca", "roupas casuais de negócios", "roupas esquecíveis", "uniformizado", "roupas manchadas de sangue", "roupas escuras", "roupas cotidianas", "roupas vintage", "roupas coloridas", "roupas caras", "roupas bagunçadas", "roupas reveladoras"];
 const SUGGESTIONS_EQUIPMENT = ["Um pequeno apartamento", "um carro usado", "um smartphone", "Beretta 9mm", "Taser", "Canivete", "Seu kit (detalhe)", "Uma casa ou apartamento confortável", "um carro decente", "Uma relíquia da sua terra natal", "Um símbolo da sua corte (sol, lua, tempestade, inverno, primavera etc.)"];
 
-const FichaFeerico = () => {
+const FichaFeerico = (props) => {
   
   const page1Extras = (
     <>
@@ -44,6 +44,8 @@ const FichaFeerico = () => {
 
   return (
     <BaseSheet 
+      {...props}
+      sheetType="feerico"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

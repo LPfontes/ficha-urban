@@ -63,6 +63,10 @@ const BaseSheet = ({
   suggestionsComportamento = DEFAULT_SUGGESTIONS_COMPORTAMENTO,
   suggestionsVisual = DEFAULT_SUGGESTIONS_VISUAL,
   suggestionsEquipment = DEFAULT_SUGGESTIONS_EQUIPMENT,
+  sheetType,
+  importedData,
+  onLoadData,
+  onClearImportedData,
 }) => {
   const handleExportJSON = () => {
     const data = {};
@@ -95,6 +99,7 @@ const BaseSheet = ({
     processInputs(sheetRef2);
 
     // Adiciona metadados úteis (opcional)
+    data.sheetType = sheetType;
     data.exportedAt = new Date().toISOString();
     
     // Cria o ficheiro para download
@@ -116,6 +121,43 @@ const BaseSheet = ({
     URL.revokeObjectURL(url);
   };
   const fileInputRef = useRef(null);
+
+  // Função unificada para popular a ficha
+  const populateSheet = useCallback((data) => {
+    // 1. Lidar com Equipamentos Dinâmicos
+    const equipIndices = Object.keys(data)
+      .filter(key => key.startsWith('equipamento-extra-'))
+      .map(key => parseInt(key.split('-').pop(), 10));
+
+    if (equipIndices.length > 0) {
+      const maxIndex = Math.max(...equipIndices);
+      setEquipments(Array(maxIndex + 1).fill(''));
+    }
+
+    // 2. Preencher os Inputs (com pequeno atraso para o React renderizar)
+    setTimeout(() => {
+      Object.keys(data).forEach((key) => {
+        const element = document.getElementById(key);
+        
+        if (element) {
+          const value = data[key];
+
+          if (element.type === 'checkbox') {
+            element.checked = value;
+          } else {
+            element.value = value;
+            // Ajusta o tamanho da fonte se for texto
+            if (element.type === 'text') {
+                adjustFontSize(element);
+            }
+          }
+        }
+      });
+      
+      // alert("Ficha carregada com sucesso!");
+    }, 100);
+  }, []);
+
   const handleImportJSON = (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -125,42 +167,12 @@ const BaseSheet = ({
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target.result);
-
-        // 1. Lidar com Equipamentos Dinâmicos
-        // Verifica se o JSON tem mais equipamentos do que os que estão renderizados
-        const equipIndices = Object.keys(data)
-          .filter(key => key.startsWith('equipamento-extra-'))
-          .map(key => parseInt(key.split('-').pop(), 10));
-
-        if (equipIndices.length > 0) {
-          const maxIndex = Math.max(...equipIndices);
-          // Atualiza o estado para criar o número certo de inputs
-          // Criamos um array novo com o tamanho necessário
-          setEquipments(Array(maxIndex + 1).fill(''));
+        
+        if (onLoadData) {
+          onLoadData(data);
+        } else {
+          populateSheet(data);
         }
-
-        // 2. Preencher os Inputs (com pequeno atraso para o React renderizar)
-        setTimeout(() => {
-          Object.keys(data).forEach((key) => {
-            const element = document.getElementById(key);
-            
-            if (element) {
-              const value = data[key];
-
-              if (element.type === 'checkbox') {
-                element.checked = value;
-              } else {
-                element.value = value;
-                // Ajusta o tamanho da fonte se for texto
-                if (element.type === 'text') {
-                   adjustFontSize(element);
-                }
-              }
-            }
-          });
-          
-          alert("Ficha carregada com sucesso!");
-        }, 100); // 100ms é suficiente para o React renderizar os novos equipamentos
 
       } catch (error) {
         console.error("Erro ao ler o ficheiro JSON:", error);
@@ -172,6 +184,14 @@ const BaseSheet = ({
     // Limpa o input para permitir carregar o mesmo ficheiro duas vezes seguidas se necessário
     event.target.value = ''; 
   };
+
+  // Efeito para carregar dados quando a ficha é montada ou os dados mudam
+  useEffect(() => {
+    if (importedData && importedData.sheetType === sheetType) {
+      populateSheet(importedData);
+      if (onClearImportedData) onClearImportedData();
+    }
+  }, [importedData, sheetType, populateSheet, onClearImportedData]);
 
   // Estado para equipamentos dinâmicos (Compartilhado por todos)
   const [equipments, setEquipments] = useState(['', '', '', '']); 
@@ -360,18 +380,22 @@ const BaseSheet = ({
           onFocus={(e) => handleInputFocus(e, 1, suggestionsVisual)} 
           onInput={(e) => adjustFontSize(e.target)}
         />
+        <div>
+          {/* Atributos (Stats) */}
+          <AbsoluteInput id="stat-coracao" top={368} left={122} width={60} height={60} type="number"  className="number-input stat-coracao" value={inputCoracaoValue}/>
+          <AbsoluteInput id="stat-espirito" top={368} left={253} width={60} height={60} type="number" className="number-input stat-espirito" value={inputEspiritoValue}/>
+          <AbsoluteInput id="stat-mente" top={368} left={390} width={60} height={60} type="number" className="number-input stat-mente"    value={inputMenteValue}/>
+          <AbsoluteInput id="stat-sangue" top={368} left={524} width={60} height={60} type="number" className="number-input stat-sangue"   value={inputSangueValue}/>
+        </div>
         
-        {/* Atributos (Stats) */}
-        <AbsoluteInput id="stat-coracao" top={368} left={122} width={60} height={60} type="number"  className="number-input stat-coracao" value={inputCoracaoValue}/>
-        <AbsoluteInput id="stat-espirito" top={368} left={253} width={60} height={60} type="number" className="number-input stat-espirito" value={inputEspiritoValue}/>
-        <AbsoluteInput id="stat-mente" top={368} left={390} width={60} height={60} type="number" className="number-input stat-mente"    value={inputMenteValue}/>
-        <AbsoluteInput id="stat-sangue" top={368} left={524} width={60} height={60} type="number" className="number-input stat-sangue"   value={inputSangueValue}/>
+        <div>
+          {/* Círculos Numéricos */}
+          <AbsoluteInput id="circle-limiar" top={368} left={696} width={60} height={60} type="number" className="number-input circulo-limiar" value={inputLimiarValue}/>
+          <AbsoluteInput id="circle-mortalis" top={368} left={830} width={60} height={60} type="number" className="number-input circulo-mortalis" value={inputMortalisValue}/>
+          <AbsoluteInput id="circle-noite" top={368} left={964} width={60} height={60} type="number" className="number-input circulo-noite" value={inputNoiteValue}/>
+          <AbsoluteInput id="circle-poder" top={368} left={1098} width={60} height={60} type="number" className="number-input circulo-poder" value={inputPoderValue}/>
+        </div>
         
-        {/* Círculos Numéricos */}
-        <AbsoluteInput id="circle-limiar" top={368} left={696} width={60} height={60} type="number" className="number-input circulo-limiar" value={inputLimiarValue}/>
-        <AbsoluteInput id="circle-mortalis" top={368} left={830} width={60} height={60} type="number" className="number-input circulo-mortalis" value={inputMortalisValue}/>
-        <AbsoluteInput id="circle-noite" top={368} left={964} width={60} height={60} type="number" className="number-input circulo-noite" value={inputNoiteValue}/>
-        <AbsoluteInput id="circle-poder" top={368} left={1098} width={60} height={60} type="number" className="number-input circulo-poder" value={inputPoderValue}/>
 
         {/* Círculos de Status (Checks) */}
         {renderCheckboxes(682, 500, 3, 29, 0, 26, 26, "check-status", [inputLimiarStatusValue])} {/* Limiar */}

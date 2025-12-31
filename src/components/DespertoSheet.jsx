@@ -13,7 +13,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["agressivo", "charmoso", "calmo", "paranoico"
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas de marca", "roupas casuais de negócios", "roupas esquecíveis", "uniformizado"];
 const SUGGESTIONS_EQUIPMENT = ["Um pequeno apartamento", "um carro usado", "um smartphone", "Beretta 9mm (2-ferimentos, médio, barulhenta, ocultável)", "Taser (ferimento-a, toque)", "Canivete (2-ferimentos, toque, ocultável)", "Seu kit (detalhe)"];
 
-const FichaDesperto = () => {
+const FichaDesperto = (props) => {
   
   const page1Extras = (
     <>
@@ -41,6 +41,8 @@ const FichaDesperto = () => {
 
   return (
     <BaseSheet 
+      {...props}
+      sheetType="desperto"
       // Imagens
       bgPage1={bgPage1}
       bgPage2={bgPage2}

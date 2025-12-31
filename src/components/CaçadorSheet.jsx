@@ -50,7 +50,7 @@ const SUGGESTIONS_EQUIPMENT = [
     "Um celular"
 
 ];
-const FichaCacador = () => {
+const FichaCacador = (props) => {
   
   // Conteúdo extra para a Página 1 (Movimentos e Armadura em posição específica)
   const hunterPage1Extras = (
@@ -80,6 +80,8 @@ const FichaCacador = () => {
 
   return (
     <BaseSheet 
+      {...props}
+      sheetType="cacador"
       bgPage1={bgHunterPage1}
       bgPage2={bgHunterPage2}
       page1Extras={hunterPage1Extras}

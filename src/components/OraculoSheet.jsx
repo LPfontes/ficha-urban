@@ -11,7 +11,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["Distante", "Manipulador", "Paranoico", "Reco
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas casuais", "roupas escuras", "roupas sujas", "roupas táticas"];
 const SUGGESTIONS_EQUIPMENT = ["Objetos de adivinhação","Instrumentos ritualísticos","Tomos e grimórios raros"]
 
-const FichaOraculo = () => {
+const FichaOraculo = (props) => {
   
   const page1Extras = (
     <>
@@ -36,6 +36,8 @@ const page2Extras = (
   );
   return (
     <BaseSheet 
+      {...props}
+      sheetType="oraculo"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

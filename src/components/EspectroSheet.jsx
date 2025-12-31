@@ -10,7 +10,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["agressivo", "charmoso", "calmo", "paranoico"
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas de marca", "roupas casuais de negócios", "roupas esquecíveis", "uniformizado", "roupas manchadas de sangue", "roupas escuras", "roupas cotidianas", "roupas vintage"];
 const SUGGESTIONS_EQUIPMENT = ["Um pequeno apartamento", "um carro usado", "um smartphone", "Beretta 9mm (2-ferimentos, médio, barulhenta, ocultável)", "Taser (ferimento-a, toque)", "Canivete (2-ferimentos, toque, ocultável)", "Seu kit (detalhe)"];
 
-const FichaEspectro = () => {
+const FichaEspectro = (props) => {
   
   const page1Extras = (
     <>
@@ -45,6 +45,8 @@ const FichaEspectro = () => {
   );
   return (
     <BaseSheet 
+      {...props}
+      sheetType="espectro"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

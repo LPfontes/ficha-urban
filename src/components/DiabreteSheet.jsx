@@ -11,7 +11,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["atormentado", "encantador", "frenético", "a
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas chamativas", "roupas formais", "roupas pouco elegantes", "uniforme"];
 const SUGGESTIONS_EQUIPMENT = ["Uma casa ou apartamento de luxo", "um carro ou van", "um smartphone", "Um presente sentimental de um membro da família", "Um objeto ritualístico que o vincula a este reino (por exemplo, o primeiro dólar gasto no seu negócio)"];
 
-const FichaDiabrete = () => {
+const FichaDiabrete = (props) => {
   
   const page1Extras = (
     <>
@@ -44,6 +44,8 @@ const FichaDiabrete = () => {
 
   return (
     <BaseSheet 
+      {...props}
+      sheetType="diabrete"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

@@ -49,7 +49,7 @@
 /* Campos Genéricos */
 .field {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.1); /* Transparente para ver */
+  background-color: rgba(255, 255, 255, 0); /* Transparente para ver */
   border: none;
   font-family: 'Courier New', Courier, monospace;
   font-size: 25px;
@@ -78,7 +78,6 @@
 .check-status { border-radius: 50%; width: 16px; height: 16px; border: solid 2px#424242; }
 
 .sheet-container {
-  /* ... mantenha o existente ... */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -89,14 +88,14 @@
   overflow-x: hidden; /* Evita scroll lateral se o cálculo falhar por poucos pixels */
 }
 
-/* Opcional: Melhorar a visualização dos controles no mobile */
-@media (max-width: 600px) {
-  .controls {
-    flex-direction: column;
-    align-items: stretch;
+
+/* --- VERSÃO MOBILE (Responsividade) --- */
+@media only screen and (max-width: 600px) {
+  
+  .number-input{
+    padding: 0%;
+    
   }
   
-  .controls select {
-    width: 100%;
-  }
+
 }

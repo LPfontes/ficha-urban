@@ -42,7 +42,7 @@ const SUGGESTIONS_EQUIPMENT = [
     "Espingarda (3-ferimentos, curto/médio, barulhenta, recarga, sangrenta)",
     "Revólver Magnum (3-ferimentos, médio, barulhenta, recarga)",
 ];
-const FichaVeterano = () => {
+const FichaVeterano = (props) => {
   
   const page1Extras = (
     <>
@@ -63,6 +63,8 @@ const page2Extras = (
   );
   return (
     <BaseSheet 
+      {...props}
+      sheetType="veterano"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

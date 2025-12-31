@@ -18,6 +18,24 @@ import FichaVeterano from './components/VeteranoSheet';
 
 function App() {
   const [currentSheet, setCurrentSheet] = useState('cacador');
+  const [importedData, setImportedData] = useState(null);
+
+  const handleLoadData = (data) => {
+    setImportedData(data);
+    if (data.sheetType) {
+      setCurrentSheet(data.sheetType);
+    }
+  };
+
+  const handleClearImportedData = () => {
+    setImportedData(null);
+  };
+
+  const sheetProps = {
+    importedData,
+    onLoadData: handleLoadData,
+    onClearImportedData: handleClearImportedData
+  };
   
   return (
     <div className="App">
@@ -44,18 +62,18 @@ function App() {
 
       <div className="sheet-container">
        {/* Renderização Condicional */}
-      {currentSheet === 'cacador' && <FichaCacador />}
-      {currentSheet === 'desperto' && <FichaDesperto />}
-      {currentSheet === 'diabrete' && <FichaDiabrete />}
-      {currentSheet === 'espectro' && <FichaEspectro />}
-      {currentSheet === 'feerico' && <FichaFeerico />}
-      {currentSheet === 'juramentado' && <FichaJuramentado />}
-      {currentSheet === 'lobo' && <FichaLobo />}
-      {currentSheet === 'maculado' && <FichaMaculado />}
-      {currentSheet === 'mago' && <FichaMago />}
-      {currentSheet === 'oraculo' && <FichaOraculo />}
-      {currentSheet === 'sanguessuga' && <FichaSanguessuga />}
-      {currentSheet === 'veterano' && <FichaVeterano />}
+      {currentSheet === 'cacador' && <FichaCacador {...sheetProps} />}
+      {currentSheet === 'desperto' && <FichaDesperto {...sheetProps} />}
+      {currentSheet === 'diabrete' && <FichaDiabrete {...sheetProps} />}
+      {currentSheet === 'espectro' && <FichaEspectro {...sheetProps} />}
+      {currentSheet === 'feerico' && <FichaFeerico {...sheetProps} />}
+      {currentSheet === 'juramentado' && <FichaJuramentado {...sheetProps} />}
+      {currentSheet === 'lobo' && <FichaLobo {...sheetProps} />}
+      {currentSheet === 'maculado' && <FichaMaculado {...sheetProps} />}
+      {currentSheet === 'mago' && <FichaMago {...sheetProps} />}
+      {currentSheet === 'oraculo' && <FichaOraculo {...sheetProps} />}
+      {currentSheet === 'sanguessuga' && <FichaSanguessuga {...sheetProps} />}
+      {currentSheet === 'veterano' && <FichaVeterano {...sheetProps} />}
       </div>
       <footer style={{ textAlign: 'center', padding: '20px 10px', marginTop: '40px', color: '#b4b3b3ff', fontFamily: 'sans-serif', fontSize: '1rem' }}>
       <p style={{ margin: '5px 0' }}>

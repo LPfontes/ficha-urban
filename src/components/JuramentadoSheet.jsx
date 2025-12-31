@@ -11,7 +11,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["astuto", "emotivo", "obsessivo", "estoico"];
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas casuais", "roupas desgrenhadas", "roupas caras", "roupas ritualísticas"];
 const SUGGESTIONS_EQUIPMENT = ["Uma casa ou apartamento luxuoso", "um carro requintado", "um smartphone caro", "Beretta 9mm", "Faca de caça", "Espingarda de cano serrado"];
 
-const FichaJuramentado = () => {
+const FichaJuramentado = (props) => {
   
   const page1Extras = (
     <>
@@ -40,6 +40,8 @@ const page2Extras = (
   );
   return (
     <BaseSheet 
+      {...props}
+      sheetType="juramentado"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

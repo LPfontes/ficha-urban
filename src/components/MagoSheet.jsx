@@ -11,7 +11,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["pressionado", "distante", "desgrenhado", "si
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas arcaicas", "roupas casuais", "roupas caras", "roupas rituais"];
 const SUGGESTIONS_EQUIPMENT = ["Um bom apartamento ou uma casa simples", "um carro ruim", "um martphone decente", "um santuário (detalhe)", "Revólver de cano curto (2-fer)", "Glock 9mm (2-fer)", "Espada (3-fer)"];
 
-const FichaMago = () => {
+const FichaMago = (props) => {
   
   const page1Extras = (
     <>
@@ -38,6 +38,8 @@ const page2Extras = (
 
   return (
     <BaseSheet 
+      {...props}
+      sheetType="mago"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

@@ -10,7 +10,7 @@ const SUGGESTIONS_COMPORTAMENTO = ["selvagem", "inquieto", "violento"];
 const SUGGESTIONS_VISUAL = ["andrógino", "conformado", "mutável", "não conformista", "Asiático ou sul-asiático", "negro", "hispânico/latino", "indígena", "do Oriente Médio", "branco", "roupas casuais", "roupas escuras", "roupas sujas", "roupas táticas"];
 const SUGGESTIONS_EQUIPMENT = ["Uma bolsa de viagem com seus pertences pessoais", "um celular de merda", "Revólver de cano curto", "Beretta 9mm", "Faca dobrável", "Facão", "Taco de baseball"];
 
-const FichaLobo = () => {
+const FichaLobo = (props) => {
   const page1Extras = (
     <>
       {/* Movimentos (Ajuste as posições conforme o background do Lobo) */}
@@ -44,6 +44,8 @@ const page2Extras = (
   );
   return (
     <BaseSheet 
+      {...props}
+      sheetType="lobo"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}

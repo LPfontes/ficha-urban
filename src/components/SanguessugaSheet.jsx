@@ -37,7 +37,7 @@ const SUGGESTIONS_EQUIPMENT = [
     "Espada (3-ferimento, curto, sangrenta)",
     "Pistola Walther PPK (2-ferimentos, curto/médio, recarga, ocultável)"
 ];
-const FichaSanguessuga = () => {
+const FichaSanguessuga = (props) => {
   const page1Extras = (
     <>
       {/* Movimentos (Ajuste as posições) */}
@@ -63,6 +63,8 @@ const page2Extras = (
   );
   return (
     <BaseSheet 
+      {...props}
+      sheetType="sanguessuga"
       bgPage1={bgPage1}
       bgPage2={bgPage2}
       page1Extras={page1Extras}
