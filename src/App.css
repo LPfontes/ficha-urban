@@ -56,9 +56,16 @@
   padding: 2px 5px;
 }
 .stats{
+  
   position: absolute;
-  top: 358px;
-  left: 110px;
+  top: if(
+    media(min-width: 768px): 358px;
+    else: 360px
+  );
+  left:if(
+    media(min-width: 768px): 103px;
+    else: 110px
+  );
   display: flex;
   gap: 45px;
   align-items: center;
@@ -66,9 +73,15 @@
   
 }
 .stat-circles{
+  top: if(
+    media(min-width: 768px): 358px;
+    else: 360px
+  );
+  left: if(
+    media(min-width: 768px): 680px;
+    else: 686px
+  );
   position: absolute;
-  top: 360px;
-  left: 686px;
   display: flex;
   gap: 45px;
   align-items: center;
@@ -109,27 +122,3 @@
   overflow-x: hidden; /* Evita scroll lateral se o cálculo falhar por poucos pixels */
 }
 
-
-/* --- VERSÃO MOBILE (Responsividade) --- */
-@media only screen and (max-width: 1000px) {
-
-  .stats{
-  position: absolute;
-  top: 360px;
-  left: 103px;
-  display: flex;
-  gap: 45px;
-  align-items: center;
-  justify-content: center;
-  
-}
-.stat-circles{
-  position: absolute;
-  top: 360px;
-  left: 679px;
-  display: flex;
-  gap: 45px;
-  align-items: center;
-  justify-content: center;
-}
-}
