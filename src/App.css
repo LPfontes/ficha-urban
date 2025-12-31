@@ -51,12 +51,29 @@
   position: absolute;
   background-color: rgba(255, 255, 255, 0); /* Transparente para ver */
   border: none;
-  font-family: 'Courier New', Courier, monospace;
   font-size: 25px;
   color: #000;
   padding: 2px 5px;
 }
-
+.stats{
+  position: absolute;
+  top: 358px;
+  left: 110px;
+  display: flex;
+  gap: 45px;
+  align-items: center;
+  justify-content: center;
+  
+}
+.stat-circles{
+  position: absolute;
+  top: 360px;
+  left: 686px;
+  display: flex;
+  gap: 45px;
+  align-items: center;
+  justify-content: center;
+}
 .check-box {
   margin: 0;
   position: absolute;
@@ -71,8 +88,12 @@
   border: solid 1.5px#ffffff;
 }
 .number-input {
+  font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  position: relative;
   text-align: center;
-  font-size: 40px;
+  font-size: 50px;
 }
 /* Estilos de inputs redondos/específicos podem ser mantidos aqui ou passados inline */
 .check-status { border-radius: 50%; width: 16px; height: 16px; border: solid 2px#424242; }
@@ -90,12 +111,25 @@
 
 
 /* --- VERSÃO MOBILE (Responsividade) --- */
-@media only screen and (max-width: 600px) {
-  
-  .number-input{
-    padding: 0%;
-    
-  }
-  
+@media only screen and (max-width: 1000px) {
 
+  .stats{
+  position: absolute;
+  top: 360px;
+  left: 103px;
+  display: flex;
+  gap: 45px;
+  align-items: center;
+  justify-content: center;
+  
+}
+.stat-circles{
+  position: absolute;
+  top: 360px;
+  left: 679px;
+  display: flex;
+  gap: 45px;
+  align-items: center;
+  justify-content: center;
+}
 }

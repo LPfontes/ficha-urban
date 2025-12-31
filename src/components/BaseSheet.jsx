@@ -380,22 +380,22 @@ const BaseSheet = ({
           onFocus={(e) => handleInputFocus(e, 1, suggestionsVisual)} 
           onInput={(e) => adjustFontSize(e.target)}
         />
-        <div>
+        <div className='stats'>
           {/* Atributos (Stats) */}
-          <AbsoluteInput id="stat-coracao" top={368} left={122} width={60} height={60} type="number"  className="number-input stat-coracao" value={inputCoracaoValue}/>
-          <AbsoluteInput id="stat-espirito" top={368} left={253} width={60} height={60} type="number" className="number-input stat-espirito" value={inputEspiritoValue}/>
-          <AbsoluteInput id="stat-mente" top={368} left={390} width={60} height={60} type="number" className="number-input stat-mente"    value={inputMenteValue}/>
-          <AbsoluteInput id="stat-sangue" top={368} left={524} width={60} height={60} type="number" className="number-input stat-sangue"   value={inputSangueValue}/>
+          <AbsoluteInput id="stat-coracao" top={0} left={0} width={80} height={80} type="number"  className="number-input stat-coracao" value={inputCoracaoValue}/>
+          <AbsoluteInput id="stat-espirito" top={-1} left={0} width={80} height={80} type="number" className="number-input stat-espirito" value={inputEspiritoValue}/>
+          <AbsoluteInput id="stat-mente" top={-1} left={0} width={80} height={80} type="number" className="number-input stat-mente"    value={inputMenteValue}/>
+          <AbsoluteInput id="stat-sangue" top={-1} left={0} width={80} height={80} type="number" className="number-input stat-sangue"   value={inputSangueValue}/>
         </div>
         
-        <div>
+        <div className='stat-circles'>
           {/* Círculos Numéricos */}
-          <AbsoluteInput id="circle-limiar" top={368} left={696} width={60} height={60} type="number" className="number-input circulo-limiar" value={inputLimiarValue}/>
-          <AbsoluteInput id="circle-mortalis" top={368} left={830} width={60} height={60} type="number" className="number-input circulo-mortalis" value={inputMortalisValue}/>
-          <AbsoluteInput id="circle-noite" top={368} left={964} width={60} height={60} type="number" className="number-input circulo-noite" value={inputNoiteValue}/>
-          <AbsoluteInput id="circle-poder" top={368} left={1098} width={60} height={60} type="number" className="number-input circulo-poder" value={inputPoderValue}/>
+          <AbsoluteInput id="circle-limiar" top={0} left={0} width={80} height={80} type="number" className="number-input circulo-limiar" value={inputLimiarValue}/>
+          <AbsoluteInput id="circle-mortalis" top={0} left={0} width={80} height={80} type="number" className="number-input circulo-mortalis" value={inputMortalisValue}/>
+          <AbsoluteInput id="circle-noite" top={0} left={0} width={80} height={80} type="number" className="number-input circulo-noite" value={inputNoiteValue}/>
+          <AbsoluteInput id="circle-poder" top={0} left={-2} width={80} height={80} type="number" className="number-input circulo-poder" value={inputPoderValue}/>
         </div>
-        
+      
 
         {/* Círculos de Status (Checks) */}
         {renderCheckboxes(682, 500, 3, 29, 0, 26, 26, "check-status", [inputLimiarStatusValue])} {/* Limiar */}
