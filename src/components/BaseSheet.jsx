@@ -67,6 +67,13 @@ const BaseSheet = ({
   onLoadData,
   onClearImportedData,
 }) => {
+  // Função para coletar todos os inputs de equipamento em uma lista
+  const getEquipmentList = () => {
+    const container = sheetRef2.current || document;
+    const inputs = container.querySelectorAll('input[id^="equipment-"]');
+    return Array.from(inputs).map(input => input.value).filter(val => val.trim() !== '');
+  };
+
   const handleExportJSON = () => {
     const data = {};
     
@@ -97,6 +104,9 @@ const BaseSheet = ({
     processInputs(sheetRef1);
     processInputs(sheetRef2);
 
+    // Adiciona a lista de equipamentos agrupada ao JSON
+    data.equipmentList = getEquipmentList();
+
     // Adiciona metadados úteis (opcional)
     data.sheetType = sheetType;
     data.exportedAt = new Date().toISOString();
@@ -125,7 +135,7 @@ const BaseSheet = ({
   const populateSheet = useCallback((data) => {
     // 1. Lidar com Equipamentos Dinâmicos
     const equipIndices = Object.keys(data)
-      .filter(key => key.startsWith('equipamento-extra-'))
+      .filter(key => key.startsWith('equipment-'))
       .map(key => parseInt(key.split('-').pop(), 10));
 
     if (equipIndices.length > 0) {
@@ -225,7 +235,6 @@ const BaseSheet = ({
   }
 
   try {
-    // 1. Configurações de Captura (Igual ao anterior)
     const filter = (node) => {
       return (node.tagName !== 'INPUT' && node.tagName !== 'TEXTAREA' && node.tagName !== 'SELECT' && node.tagName !== 'BUTTON');
     };
@@ -255,8 +264,6 @@ const BaseSheet = ({
     const image1 = await embedImage(dataUrl1);
     const image2 = await embedImage(dataUrl2);
 
-    // Definindo tamanho A3 em pontos (Standard PDF point size: 72 DPI)
-    // A3 ≈ 841.89 x 1190.55 points
     const pageWidth = sheetRef1.current.offsetWidth;
     const pageHeight = sheetRef1.current.offsetHeight;
 
@@ -273,6 +280,12 @@ const BaseSheet = ({
 
       inputs.forEach((input) => {
         if (input.type === 'hidden' || input.style.display === 'none' || input.type === 'file') return;
+
+        // Ignora inputs de equipamento individuais para agrupar depois
+        if (input.id && input.id.startsWith('equipment-')) return;
+
+        // REGRA ESPECÍFICA: Ignora inputs de "devedor" se for Sanguessuga para agrupar depois
+        if (sheetType === 'sanguessuga' && input.id && input.id.startsWith('devedor-')) return;
 
         const rect = input.getBoundingClientRect();
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -310,7 +323,7 @@ const BaseSheet = ({
             textField = form.createTextField(fieldName);
           }
           if(input.type === 'number') {
-            x -=5;
+            x = x - 8;
           }
           textField.addToPage(page, { x, y, width: w, height: h,backgroundColor: undefined, borderColor: undefined });
           textField.setText(input.value);
@@ -320,15 +333,83 @@ const BaseSheet = ({
             textField.setFontSize(14);
             textField.setAlignment(TextAlignment.Left);
           } else if (input.type === 'number') {
-            textField.setFontSize(40);
+            textField.setFontSize(44);
             textField.setAlignment(TextAlignment.Center);
           } else {
-            textField.setFontSize(20);
-            textField.setAlignment(TextAlignment.Left);
+            if(input.id === 'char-pronouns') {
+              textField.setFontSize(20);
+              textField.setAlignment(TextAlignment.Center);
+            }else{
+              textField.setFontSize(20);
+              textField.setAlignment(TextAlignment.Left);
+            }
           }
           
         }
       });
+
+      // Adiciona o textarea agrupado para equipamentos na página 2
+      if (containerRef === sheetRef2) {
+        // --- Lógica Geral: Equipamentos ---
+        const equipmentList = getEquipmentList().join('\n');
+        const fieldName = 'equipment_list_grouped';
+        
+        var contentHeight = 460;
+        if (sheetType === 'sanguessuga') {
+          contentHeight = 220;
+        }
+        if (sheetType === 'oraculo') {
+          contentHeight = 300;
+        }
+        
+        const w = equipmentWidth * scaleX - 10;
+        const h = contentHeight * scaleY;
+        
+        const x = equipmentsLeft * scaleX;
+        const y = pageHeight - (equipmentsTop * scaleY) - h;
+
+        let textField;
+        try {
+          textField = form.getTextField(fieldName);
+        } catch (e) {
+          textField = form.createTextField(fieldName);
+        }
+
+        textField.addToPage(page, { x, y, width: w, height: h, backgroundColor: undefined, borderColor: undefined });
+        textField.setText(equipmentList);
+        textField.enableMultiline();
+        textField.setFontSize(14);
+        textField.setAlignment(TextAlignment.Left);
+
+        // --- REGRA ESPECÍFICA: Sanguessuga (Devedores) ---
+        if (sheetType === 'sanguessuga') {
+           const debtorsList = Array.from(containerRef.current.querySelectorAll('input[id^="devedor-"]'))
+             .map(input => input.value)
+             .filter(val => val.trim() !== '')
+             .join('\n');
+           
+           const debtorsFieldName = 'debtors_list_grouped';
+           
+           // Coordenadas baseadas no layout do SanguessugaSheet (top: 539, left: 369, width: 394, height: 355)
+           const dW = 394 * scaleX;
+           const dH = 355 * scaleY;
+           const dX = 369 * scaleX;
+           const dY = pageHeight - (539 * scaleY) - dH - 30;
+
+           let debtorsField;
+           try {
+             debtorsField = form.getTextField(debtorsFieldName);
+           } catch (e) {
+             debtorsField = form.createTextField(debtorsFieldName);
+           }
+           
+           debtorsField.addToPage(page, { x: dX, y: dY, width: dW, height: dH, backgroundColor: undefined, borderColor: undefined });
+           debtorsField.setText(debtorsList);
+           debtorsField.enableMultiline();
+           debtorsField.setFontSize(14);
+           debtorsField.setAlignment(TextAlignment.Left);
+        }
+      }
     };
 
     // --- Página 1 ---
