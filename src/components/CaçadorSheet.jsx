@@ -52,7 +52,6 @@ const SUGGESTIONS_EQUIPMENT = [
 ];
 const FichaCacador = (props) => {
   
-  // Conteúdo extra para a Página 1 (Movimentos e Armadura em posição específica)
   const hunterPage1Extras = (
     <>
       {/* Movimentos específicos do Caçador */}

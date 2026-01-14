@@ -1,5 +1,5 @@
 // src/components/VampSheet.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AbsoluteInput from './AbsoluteInput';
 import BaseSheet, { renderCheckboxes } from './BaseSheet';
 import bgPage1 from '../assets/imagens/sanguessuga.webp';
@@ -38,6 +38,33 @@ const SUGGESTIONS_EQUIPMENT = [
     "Pistola Walther PPK (2-ferimentos, curto/médio, recarga, ocultável)"
 ];
 const FichaSanguessuga = (props) => {
+  const [devedores, setDevedores] = useState(['']);
+
+  useEffect(() => {
+    if (props.importedData) {
+      const indices = Object.keys(props.importedData)
+        .filter(k => k.startsWith('devedor-'))
+        .map(k => parseInt(k.split('-')[1]));
+      
+      if (indices.length > 0) {
+        const max = Math.max(...indices);
+        const newDevedores = [];
+        for (let i = 0; i <= max; i++) {
+            newDevedores.push(props.importedData[`devedor-${i}`] || '');
+        }
+        setDevedores(newDevedores);
+      }
+    }
+  }, [props.importedData]);
+
+  const addDevedor = () => setDevedores([...devedores, '']);
+  const removeDevedor = (index) => setDevedores(devedores.filter((_, i) => i !== index));
+  const updateDevedor = (index, value) => {
+      const newDevedores = [...devedores];
+      newDevedores[index] = value;
+      setDevedores(newDevedores);
+  };
+
   const page1Extras = (
     <>
       {/* Movimentos (Ajuste as posições) */}
@@ -50,6 +77,7 @@ const FichaSanguessuga = (props) => {
   );
 const page2Extras = (
     <>
+      
       {renderCheckboxes(796, 279, 5, 0, 24, 14, 14, "check-seu-porto")}
       {renderCheckboxes(796, 436, 5, 0, 48, 14, 14, "check-seu-porto")}
       {renderCheckboxes(796, 713, 5, 0, 48, 14, 14, "check-seu-porto")}
@@ -58,6 +86,55 @@ const page2Extras = (
 
       {renderCheckboxes(76, 849, 1, 0, 20, 14, 14, "check-equipamento-inicial")}
       {renderCheckboxes(76, 891, 2, 0, 21, 14, 14, "check-equipamento-inicial")}
+      
+      <div style={{
+        position: 'absolute',
+        top: 539,
+        left: 369,
+        width: 394,
+        height: 355,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '5px',
+        overflowY: 'auto'
+      }}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '10px', marginLeft: '230px'}}>
+             <button onClick={addDevedor} style={{fontSize: '12px', padding: '5px 8px', cursor: 'pointer', background: '#5e1f5c', color: '#fff', border: 'none', borderRadius: '4px'}}>+ Devedor</button>
+        </div>
+        {devedores.map((val, i) => (
+            <div key={i} style={{display: 'flex', alignItems: 'center', width: '100%'}}>
+                <input 
+                    id={`devedor-${i}`}
+                    className="field"
+                    style={{
+                        position: 'relative',
+                        width: '85%',
+                        fontSize: '16px',
+                        background: 'rgba(255,255,255,0.4)',
+                        padding: '4px'
+                    }}
+                    placeholder="Nome do devedor..."
+                    value={val}
+                    onChange={(e) => updateDevedor(i, e.target.value)}
+                />
+                <button 
+                    onClick={() => removeDevedor(i)}
+                    style={{
+                        marginLeft: '5px',
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#0000005b',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        padding: '0 6px'
+                    }}
+                >
+                    X
+                </button>
+            </div>
+        ))}
+      </div>
       
     </>
   );

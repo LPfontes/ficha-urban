@@ -1,7 +1,6 @@
-// src/components/BaseSheet.jsx
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { toPng } from 'html-to-image'; 
-import { jsPDF } from 'jspdf';
+import { PDFDocument, rgb ,TextAlignment} from 'pdf-lib';
 import AbsoluteInput from './AbsoluteInput';
 
 // --- Helper Exportável para uso nas classes filhas ---
@@ -205,7 +204,7 @@ const BaseSheet = ({
       if (!element) return;
       const maxFontSize = 24; 
       const minFontSize = 10;
-      const maxWidth = element.clientWidth - 20; // Padding de segurança
+      const maxWidth = element.clientWidth - 20; 
       
       let currentSize = maxFontSize;
       const canvas = document.createElement('canvas');
@@ -221,45 +220,151 @@ const BaseSheet = ({
       element.style.fontSize = `${currentSize}px`;
     };
   const handleDownloadImage = useCallback(async () => {
-    if (sheetRef1.current === null || sheetRef2.current === null) {
-      return;
-    }
+  if (sheetRef1.current === null || sheetRef2.current === null) {
+    return;
+  }
 
-    try {
-      // Configuração para forçar a escala 1 durante a "foto", garantindo qualidade do PDF
-      const options = { 
-        cacheBust: true, 
-        backgroundColor: '#ffffff',
-        pixelRatio: 1, // Aumenta a resolução (3x) para textos nítidos e alta qualidade
-        style: { 
-          boxShadow: 'none', // Remove a sombra para um visual de documento limpo
-          margin: '0'        // Garante que não haja margens extras na captura
+  try {
+    // 1. Configurações de Captura (Igual ao anterior)
+    const filter = (node) => {
+      return (node.tagName !== 'INPUT' && node.tagName !== 'TEXTAREA' && node.tagName !== 'SELECT' && node.tagName !== 'BUTTON');
+    };
+
+    const options = { 
+      cacheBust: true, 
+      backgroundColor: '#ffffff',
+      pixelRatio: 1, 
+      skipFonts: true,
+      filter: filter, 
+      style: { boxShadow: 'none', margin: '0' }
+    };
+
+    // 2. Gera as imagens PNG
+    const dataUrl1 = await toPng(sheetRef1.current, options);
+    const dataUrl2 = await toPng(sheetRef2.current, options);
+
+    // 3. Inicia o PDF com pdf-lib
+    const pdfDoc = await PDFDocument.create();
+    
+    // Função auxiliar para converter DataURL para bytes
+    const embedImage = async (dataUrl) => {
+      const pngImageBytes = await fetch(dataUrl).then((res) => res.arrayBuffer());
+      return pdfDoc.embedPng(pngImageBytes);
+    };
+
+    const image1 = await embedImage(dataUrl1);
+    const image2 = await embedImage(dataUrl2);
+
+    // Definindo tamanho A3 em pontos (Standard PDF point size: 72 DPI)
+    // A3 ≈ 841.89 x 1190.55 points
+    const pageWidth = sheetRef1.current.offsetWidth;
+    const pageHeight = sheetRef1.current.offsetHeight;
+
+    // Função para adicionar campos na página específica
+    const addFormFieldsToPage = (containerRef, page) => {
+      const form = pdfDoc.getForm();
+      const domWidth = containerRef.current.offsetWidth;
+      const domHeight = containerRef.current.offsetHeight;
+      
+      const scaleX = pageWidth / domWidth;
+      const scaleY = pageHeight / domHeight;
+
+      const inputs = containerRef.current.querySelectorAll('input, textarea, select');
+
+      inputs.forEach((input) => {
+        if (input.type === 'hidden' || input.style.display === 'none' || input.type === 'file') return;
+
+        const rect = input.getBoundingClientRect();
+        const containerRect = containerRef.current.getBoundingClientRect();
+
+        // Cálculos de dimensão escalados
+        const w = rect.width * scaleX;
+        const h = rect.height * scaleY;
+
+        const domTopRelative = (rect.top - containerRect.top) * scaleY;
+        var x = (rect.left - containerRect.left) * scaleX;
+        const y = pageHeight - domTopRelative - h;
+
+        const fieldName = input.id || `field_${Math.random().toString(36).substr(2, 9)}`;
+
+        if (input.type === 'checkbox') {
+          let checkBox;
+          try {
+            checkBox = form.getCheckBox(fieldName);
+          } catch (e) {
+            checkBox = form.createCheckBox(fieldName);
+          }
+          
+          checkBox.addToPage(page, { x, y, width: w, height: h });
+          
+          if (input.checked) {
+            checkBox.check();
+          }
+
+        } else {
+          // Cria Text Field
+          let textField;
+          try {
+            textField = form.getTextField(fieldName);
+          } catch (e) {
+            textField = form.createTextField(fieldName);
+          }
+          if(input.type === 'number') {
+            x -=5;
+          }
+          textField.addToPage(page, { x, y, width: w, height: h,backgroundColor: undefined, borderColor: undefined });
+          textField.setText(input.value);
+          
+          if (input.tagName === 'TEXTAREA') {
+            textField.enableMultiline();
+            textField.setFontSize(14);
+            textField.setAlignment(TextAlignment.Left);
+          } else if (input.type === 'number') {
+            textField.setFontSize(40);
+            textField.setAlignment(TextAlignment.Center);
+          } else {
+            textField.setFontSize(20);
+            textField.setAlignment(TextAlignment.Left);
+          }
+          
         }
-      };
-
-      const dataUrl1 = await toPng(sheetRef1.current, options);
-      const dataUrl2 = await toPng(sheetRef2.current, options);
-
-      // ... (Resto da lógica do PDF igual)
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: 'a3',
-        compress: false
       });
+    };
 
-      const width = pdf.internal.pageSize.getWidth();
-      const height = pdf.internal.pageSize.getHeight();
+    // --- Página 1 ---
+    const page1 = pdfDoc.addPage([pageWidth, pageHeight]);
+    page1.drawImage(image1, {
+      x: 0,
+      y: 0,
+      width: pageWidth,
+      height: pageHeight,
+    });
+    addFormFieldsToPage(sheetRef1, page1);
 
-      pdf.addImage(dataUrl1, 'PNG', 0, 0, width, height);
-      pdf.addPage();
-      pdf.addImage(dataUrl2, 'PNG', 0, 0, width, height);
+    // --- Página 2 ---
+    const page2 = pdfDoc.addPage([pageWidth, pageHeight]);
+    page2.drawImage(image2, {
+      x: 0,
+      y: 0,
+      width: pageWidth,
+      height: pageHeight,
+    });
+    addFormFieldsToPage(sheetRef2, page2);
 
-      pdf.save('ficha-urban-shadows.pdf');
-    } catch (err) {
-      console.error('Erro ao gerar o PDF:', err);
-    }
-  }, [sheetRef1, sheetRef2]);
+    // 4. Salvar e Baixar
+    const pdfBytes = await pdfDoc.save();
+    
+    // Cria o Blob e dispara o download
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'ficha-urban-shadows-editavel.pdf';
+    link.click();
+
+  } catch (err) {
+    console.error('Erro ao gerar o PDF:', err);
+  }
+}, [sheetRef1, sheetRef2]);
 
   const handleInputFocus = (e, page, options) => {
     const target = e.target;

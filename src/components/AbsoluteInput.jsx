@@ -22,6 +22,20 @@ const AbsoluteInput = ({
     
   };
 
+  if (type === 'textarea') {
+    style.paddingTop ='45px';
+    return (
+      <textarea
+        id={id}
+        style={style}
+        className={`field ${className}`}
+        placeholder={placeholder}
+        defaultValue={value}
+        {...props}
+      />
+    );
+  }
+
   const baseClass = type === 'checkbox' ? 'check-box' : 'field';
 
   return (

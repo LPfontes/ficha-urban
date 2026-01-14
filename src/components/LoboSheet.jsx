@@ -13,14 +13,12 @@ const SUGGESTIONS_EQUIPMENT = ["Uma bolsa de viagem com seus pertences pessoais"
 const FichaLobo = (props) => {
   const page1Extras = (
     <>
-      {/* Movimentos (Ajuste as posições conforme o background do Lobo) */}
+      {/* Movimentos */}
       <AbsoluteInput id="lobo-move-1" top={815} left={76} width={17} height={17} type="checkbox" className="check-move" />
       <AbsoluteInput id="lobo-move-2" top={986} left={76} width={17} height={17} type="checkbox" className="check-move" />
       <AbsoluteInput id="lobo-move-3" top={901} left={76} width={17} height={17} type="checkbox" className="check-move" />
       <AbsoluteInput id="lobo-move-4" top={1119} left={76} width={17} height={17} type="checkbox" className="check-move" />
-      
-      {/* Armadura específica do Lobo */}
-      <AbsoluteInput id="lobo-armor" top={740} left={715} width={40} height={30} type="number" className="field-armadura" />
+    
     </>
   );
 const page2Extras = (

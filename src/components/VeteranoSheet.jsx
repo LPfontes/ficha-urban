@@ -46,7 +46,7 @@ const FichaVeterano = (props) => {
   
   const page1Extras = (
     <>
-      {/* Movimentos (Ajuste as posições) */}
+      {/* Movimentos */}
       <AbsoluteInput id="veterano-move-1" top={772} left={76} width={17} height={17} type="checkbox" className="check-move" />
       <AbsoluteInput id="veterano-move-2" top={800} left={76} width={17} height={17} type="checkbox" className="check-move" />
       <AbsoluteInput id="veterano-move-3" top={906} left={76} width={17} height={17} type="checkbox" className="check-move" />
