@@ -333,7 +333,7 @@ const BaseSheet = ({
             textField.setFontSize(14);
             textField.setAlignment(TextAlignment.Left);
           } else if (input.type === 'number') {
-            textField.setFontSize(44);
+            textField.setFontSize(48);
             textField.setAlignment(TextAlignment.Center);
           } else {
             if(input.id === 'char-pronouns') {

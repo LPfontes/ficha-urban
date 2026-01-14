@@ -110,7 +110,7 @@
 }
 
 
-@media (width >= 2000px) {
+@media (pointer: coarse) {
 .stats{ 
   position: absolute;
   top: 358px;
